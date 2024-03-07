@@ -1,10 +1,8 @@
 //Program:The Subtract-a-Square game involves two players and a pile of coins.
 //        In turns, players subtract a square number of coins from the pile until no coins remain.
 //        The player making the last Resort move emerges as the winner."
+
 //Author: Amir Fathi Hagamir Khalifah
-//ID: 20230744
-//Version: 1.3
-//Date: 2024/3/2
 
 
 
