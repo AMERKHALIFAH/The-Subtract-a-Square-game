@@ -2,4 +2,4 @@
 
 Next, it's Player 2's turn. Player 2 must also select a square number, taking into consideration the remaining number of coins. The game continues with players alternately choosing square numbers and subtracting them from the remaining coins.
 
-The player who removes the last remaining coin is declared the winner."
+The player who removes the last remaining coin is  the winner."
