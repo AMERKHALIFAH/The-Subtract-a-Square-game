@@ -1,0 +1,3 @@
+C:/Users/AMER/Desktop/OOPASS/BONUS - Assignment Demo With AI/Assignment Demo/cmake-build-debug/CMakeFiles/Assignment_Demo.dir
+C:/Users/AMER/Desktop/OOPASS/BONUS - Assignment Demo With AI/Assignment Demo/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/AMER/Desktop/OOPASS/BONUS - Assignment Demo With AI/Assignment Demo/cmake-build-debug/CMakeFiles/rebuild_cache.dir
