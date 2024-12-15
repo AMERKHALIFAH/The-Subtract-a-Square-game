@@ -1,0 +1,151 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cstdlib>
+#include <ctime>
+#include "BoardGame_Classes.h"
+using namespace std;
+
+class FourInARow : public Board<char> {
+private:
+    char bod[6][7];
+    int moves;
+public:
+    FourInARow() {
+        rows = 6;
+        columns = 7; moves = 0;
+        for (int i = 0; i < 6; ++i) {
+            for (int j = 0; j < 7; ++j) {
+                bod[i][j] = '.';
+            }
+        }
+    }bool uboard(int column, int, char symbol) override {
+        if (column < 0 || column >= 7) {
+            return false;
+        }
+        for (int row = 5; row >= 0; --row) {
+            if (bod[row][column] == '.') {
+                bod[row][column] = symbol;
+                ++moves;
+                return true;
+            }
+        }
+        return false;
+    }
+    void display() override {
+        for (int i = 0; i < 6; ++i) {
+            for (int j = 0; j < 7; ++j) {
+                cout << bod[i][j] << " ";
+            }
+            cout << "\n";
+        }
+        cout << "0 1 2 3 4 5 6\n";
+    }
+    bool win() override {
+        for (int row = 0; row < 6; ++row) {
+            for (int col = 0; col < 4; ++col) {
+                if (bod[row][col] != '.' &&
+                    bod[row][col] == bod[row][col + 1] &&
+                    bod[row][col] == bod[row][col + 2] &&
+                    bod[row][col] == bod[row][col + 3]) {
+                    return true;
+                }
+            }
+        }
+        for (int col = 0; col < 7; ++col) {
+            for (int row = 0; row < 3; ++row) {
+                if (bod[row][col] != '.' &&
+                    bod[row][col] == bod[row + 1][col] &&
+                    bod[row][col] == bod[row + 2][col] &&
+                    bod[row][col] == bod[row + 3][col]) {
+                    return true;
+                }
+            }
+        }
+        for (int row = 3; row < 6; ++row) {
+            for (int col = 0; col < 4; ++col) {
+                if (bod[row][col] != '.' &&
+                bod[row][col] == bod[row - 1][col + 1] &&
+                bod[row][col] == bod[row - 2][col + 2] &&
+                bod[row][col] == bod[row - 3][col + 3]) {
+                    return true;
+                }
+            }
+        }
+        for (int row = 0; row < 3; ++row) {
+            for (int col = 0; col < 4; ++col) {
+                if (bod[row][col] != '.' &&
+                bod[row][col] == bod[row + 1][col + 1] &&
+                bod[row][col] == bod[row + 2][col + 2] &&
+                bod[row][col] == bod[row + 3][col + 3]) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    bool draw() override {
+        return moves == 42 && !win();
+    }
+    bool gameover() override {
+        return win() || draw();
+    }
+};
+class FourInARowPlayer : public Player<char> {
+public:
+    FourInARowPlayer(string name, char symbol) : Player<char>(name, symbol) {}
+
+    void getmove(int& column, int& unused) override {
+        cout << getname() << ", Enter Your Move (0-6): " << endl;
+        cin >> column;
+
+        while (column < 0 || column >= 7) {
+            cout << "Invalid Column! Enter A Number Between 0 And 6: ";
+            cin >> column;
+        }
+    }
+};
+class Random : public FourInARowPlayer {
+public:
+    Random(string name, char symbol) : FourInARowPlayer(name, symbol) {}
+
+    void getmove(int& column, int& unused) override {
+        column = rand() % 7;
+        cout << getname() << " Chooses Column " << column << "\n";
+    }
+};
+
+int main() {
+    cout << "Welcome to Four in a Row\n";
+
+    Player<char>* players[2];
+    FourInARow* board = new FourInARow();
+
+
+    for (int i = 0; i < 2; ++i) {
+        int type;
+        string name;
+        cout << "Enter Player " << (i + 1) << " Name: ";
+        cin >> name;
+        cout << "Choose Player " << (i + 1) << " Type: "
+             << " \n 1. Human\n 2. Computer\n";
+        cin >> type;
+
+        if (type == 1) {
+            players[i] = new FourInARowPlayer(name, (i == 0 ? 'X' : 'O'));
+        } else {
+            players[i] = new Random(name, (i == 0 ? 'X' : 'O'));
+        }
+    }
+
+    GameManager<char> game(board, players);
+    game.run();
+
+    
+    delete board;
+    delete players[0];
+    delete players[1];
+
+    return 0;
+}
